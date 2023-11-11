@@ -8,6 +8,37 @@
     type = {Book}
 }
 
+@book{RN123,
+    author = {Bresnan, Joan and Asudeh, Ash and Toivonen, Ida and Wechsler, Stephen},
+    title = {Lexical-Functional Syntax},
+    publisher = {Wiley Blackwell},
+    address = {Chichester},
+    edition = {2nd},
+    year = {2016},
+    type = {Book}
+}
+
+@book{RN123,
+    author = {Bresnan, Joan and Asudeh, Ash and Toivonen, Ida and Wechsler, Stephen},
+    title = {Lexical-Functional Syntax},
+    publisher = {Wiley Blackwell},
+    address = {Chichester},
+    edition = {2nd},
+    year = {2016},
+    type = {Book}
+}
+
+@book{RN431123412341234,
+   author = {Chomsky, Noam},
+   title = {Lectures on Government and Binding Theory: The Pisa Lectures},
+   publisher = {Mouton de Gruyter},
+   address = {Berlin},
+   edition = {7th ed},
+   date = {1993},
+   origdate = {1981},
+   type = {Book}
+}
+
 @inbook{RN361,
     author = {Rákosi, György},
     title = {Anaphora},
