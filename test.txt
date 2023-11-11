@@ -1,3 +1,22 @@
+
+@article{RN70,
+   author = {Ann Matter, E.},
+   title = {Alcuin's Question-and-Answer Texts},
+   journal = {Rivista di storia della filosofia},
+   volume = {45},
+   number = {4},
+   pages = {645-656},
+   DOI = {10.2307/44022670},
+   url = {https://dx.doi.org/10.2307/44022670},
+   year = {1990},
+   type = {Journal Article}
+}
+
+@misc{RN162,
+   year = {1977},
+   type = {Dictionary}
+}
+
 @book{RN123,
     author = {Bresnan, Joan and Asudeh, Ash and Toivonen, Ida and Wechsler, Stephen},
     title = {Lexical-Functional Syntax},

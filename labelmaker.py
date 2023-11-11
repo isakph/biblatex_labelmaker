@@ -60,7 +60,8 @@ class Labelmaker:
         name_start = lines[1].find("{") + 1 # add one since start index is inclusive
         name_end = lines[1].find("}")
         authors = lines[1][name_start:name_end].split(" and ")
-        last_names = [author.split(",")[0].lower() for author in authors]
+        # Labels are lowercase. If an author's last name has a space, it is replaced by an underscore.
+        last_names = [author.split(",")[0].lower().replace(" ", "_") for author in authors]
 
         # finding the year
         date_index = -1
