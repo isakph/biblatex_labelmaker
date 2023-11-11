@@ -1,0 +1,21 @@
+@book{RN123,
+    author = {Bresnan, Joan and Asudeh, Ash and Toivonen, Ida and Wechsler, Stephen},
+    title = {Lexical-Functional Syntax},
+    publisher = {Wiley Blackwell},
+    address = {Chichester},
+    edition = {2nd},
+    year = {2016},
+    type = {Book}
+}
+
+@inbook{RN361,
+    author = {Rákosi, György},
+    title = {Anaphora},
+    booktitle = {The Handbook of Lexical Functional Grammar},
+    editor = {Dalrymple, Mary},
+    series = {Empirically Oriented Theoretical Morphology and Syntax},
+    publisher = {Language Science Press},
+    address = {Berlin},
+    year = {forthcoming},
+    type = {Book Section}
+}

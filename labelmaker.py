@@ -6,21 +6,11 @@ def make_labels(filename: str) -> None:
     author year, checking for duplicates while doing so.
     The output file is written to the same location, adding
     "labelled" to the end of the filename.
-    """
-    # The below pattern captures an entry.
-    # An entry has a prefix "@entrytype{\n" and a suffix "}\n}\n".
-    # The flags m (multiline) and s (match all) ensure that we match line changes.
-    entry_pattern = re.compile(r"(?ms)^@\w*\{.*\}\n\}$")
-    pattern = re.compile(r"(?ms)@\w+\{\w+,\n(\w+= \{([\w, -]*\},?)\n)+^\}")
-    # (\w+= \{([\w, -]*\},?)\n)+ er ment å matche "title = {Lexical-Functional Syntax},\n" osv
-    # but pretty sure it doesn't. What characters occur within {}? "," and "-" and
-    # what else? "'" can occur, "." can occur (as in O'Connell or l'homme, and Race, William H.)
-    # I'll want to split the regexing thing up into at least two things.
-    # 1) Find an entry and return it as a match.
-    # 2) Rewrite the entry and return it.
-    # Then I can write it to a new file.
 
-    """
+    The below pattern captures an entry.
+    An entry begins with @. @ is always preceded by a new line except for 
+    the first entry.
+
     Example entry:
     @book{RN123,
        author = {Bresnan, Joan and Asudeh, Ash and Toivonen, Ida and Wechsler, Stephen},
@@ -46,7 +36,8 @@ def make_labels(filename: str) -> None:
 
     """
     with open(filename) as file:
-        for match in re.search(entry_expression, file):
+        for match in re.search(r"@", file):
+            print(match)
 
 
     # need to deal with multiple authors somehow. Maybe nice to define a new
@@ -66,5 +57,6 @@ def make_labels(filename: str) -> None:
 # suggestion until a label that is not in the set of existing labels is found.
 #
 # I don't think I'll bother dealing with stuff like "pubstate = forthcoming",
-# but since EndNote seems to save forthcoming as year, then
+# but since EndNote seems to save forthcoming as year, that should take care of 
+# those situations, generally, as "nameforthcoming".
 """
