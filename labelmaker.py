@@ -5,7 +5,7 @@ import sys
 
 class Labelmaker:
     def __init__(self, filename: str):
-        self._filename = filename
+        self.__filename = filename
         self.__entries = []
         self.__labels = set()
         self.__make_labels(filename)
@@ -20,31 +20,9 @@ class Labelmaker:
 
         The below pattern captures an entry.
         An entry begins with @. @ is always preceded by a new line except for 
-        the first entry.
+        the first entry. For further details, see text.t
 
-        Example entries:
-        @book{RN123,
-        author = {Bresnan, Joan and Asudeh, Ash and Toivonen, Ida and Wechsler, Stephen},
-        title = {Lexical-Functional Syntax},
-        publisher = {Wiley Blackwell},
-        address = {Chichester},
-        edition = {2nd},
-        year = {2016},
-        type = {Book}
-        }
-        
-        @inbook{RN361,
-        author = {Rákosi, György},
-        title = {Anaphora},
-        booktitle = {The Handbook of Lexical Functional Grammar},
-        editor = {Dalrymple, Mary},
-        series = {Empirically Oriented Theoretical Morphology and Syntax},
-        publisher = {Language Science Press},
-        address = {Berlin},
-        year = {forthcoming},
-        type = {Book Section}
-    }
-
+        EndNote automatically adds two newlines to the end of the document.
         """
         with open(filename) as file:
             entry = ""
@@ -54,15 +32,10 @@ class Labelmaker:
                     if line == "\n": # lines between entries are empty
                         continue
                     entry += line
-                # elif line == "}": # the final entry might not be followed by a newline
-                #     entry += line # adding the final "}\n"
-                #     self.__parse_entry(entry)
                 else:
                     entry += line # adding the final "}\n"
                     self.__parse_entry(entry)
                     entry = ""
-        self.__parse_entry(entry)
-        print(self.__labels)
 
     def __parse_entry(self, entry: str) -> None:
         """
@@ -70,12 +43,9 @@ class Labelmaker:
         Finds author names and year, then changes the label. 
         The updated entry is added to the list self.__entries.
         """
-        # print(entry)
         lines = entry.split("\n")
         first_line = lines[0]
-        # print("lines[0]", lines[0])
         label_start_index = first_line.find("{") + 1
-        # print(first_line[label_start_index:])
 
         # Authors are always on the second line of an entry, but some works
         # may not have authors. Entries without authors are left as-is.
@@ -102,7 +72,8 @@ class Labelmaker:
             date_index = entry.find("date = {") + 8
         else:
             year = ""
-        # years are lazily assumed to be four digits:
+        # Years are lazily assumed to be four digits, so if the year is "forthcoming",
+        # then that has to be fixed.
         if date_index != -1:
             year = entry[date_index:date_index+4]
         if year == "fort":
@@ -113,7 +84,7 @@ class Labelmaker:
         # creating an entry with the new label
         first_line = first_line[:label_start_index] + label + ",\n"
         entry = first_line + "\n".join(lines[1:])
-        self.__entries.append(first_line.join(lines[1:]))
+        self.__entries.append(entry)
 
     
     def __create_label(self, last_names: list[str], year: str) -> str:
@@ -132,8 +103,8 @@ class Labelmaker:
             self.__labels.add(label)
             return label
 
-        # if there is a duplicate, try adding a letter of the alphabet
-        # if there are more duplicates than letters in the alphabet, well...
+        # if there is a duplicate, try adding a letter of the alphabet.
+        # If there are more duplicates than letters in the alphabet, well...
         duplicate = label
         i = 0
         alphabet = "abcdefghijklmnopqrstuvwxyz"
@@ -141,35 +112,16 @@ class Labelmaker:
             duplicate = label + alphabet[i]
             i += 1
         
-        assert(duplicate not in self.__labels)
+        assert(duplicate not in self.__labels) # too many duplicates?
         self.__labels.add(duplicate)
         return duplicate
             
 
     def __write_to_file(self, overwrite=False) -> None:
-        ...
+        with open(self.__filename.split(".")[0] + "_labelled.bib", "w") as file:
+            file.write("\n".join(self.__entries))
 
 
-    # need to deal with multiple authors somehow. Maybe nice to define a new
-    # method for those. Let's say two authors are lastnamelastnameyear, but three or
-    # more are lastnameetalyear.
-    # this should be doable with a regex that checks how many "and"s are found between
-    # the brackets behind author.
-    # So the only line I actually need to change is the first line, where I want to
-    # enter the new label. The entry type is to be left unchanged.
-
-
-"""
-# I will also have to account for duplicates. A possible way of handling them should
-# be to maintain a set of labels that have been used already. If a label is in this
-# set, try the label with a added to the end, and so on. I guess having a string
-# "abcdefgh..." will suffice, then I can try adding letters to the original label
-# suggestion until a label that is not in the set of existing labels is found.
-#
-# I don't think I'll bother dealing with stuff like "pubstate = forthcoming",
-# but since EndNote seems to save forthcoming as year, that should take care of 
-# those situations, generally, as "nameforthcoming".
-"""
 def main(filename):
     Labelmaker(filename)
 

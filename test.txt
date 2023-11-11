@@ -50,3 +50,13 @@
     year = {forthcoming},
     type = {Book Section}
 }
+
+@book{RN301,
+   author = {Thalheim, Theodor and Blass, Friedrich},
+   title = {Antiphontis orationes et fragmenta},
+   publisher = {B. G. Teubner},
+   address = {Stuttgart},
+   date = {1914},
+   type = {Book}
+}
+
