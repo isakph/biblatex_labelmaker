@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import string
 from unidecode import unidecode
 
 class Labelmaker:
@@ -65,8 +66,11 @@ class Labelmaker:
         # This list comprehension normalizes the author names.
         # After splitting on comma, the first element is the last name.
         # unidecode() replaces non-ASCII characters.
-        # Labels are lowercase. If an author's last name has a space, it is replaced by an underscore.
-        last_names = [unidecode(author.split(",")[0].lower().replace(" ", "_")) for author in authors]
+        # Labels are lowercase. If an author's last name has a space, 
+        # it is replaced with an empty string.
+        last_names = [unidecode(author.split(",")[0].lower().replace(" ", "")) for author in authors]
+        # we also need to remove any punctuation from the last names:
+        last_names = [name.translate(str.maketrans('', '', string.punctuation)) for name in last_names]
 
         # finding the year
         date_index = -1
