@@ -14,13 +14,14 @@ class Labelmaker:
     def __make_labels(self, filename: str) -> None:
         """
         Opens a .bib file and changes the labels of the entries to
-        author year.
+        authoryear.
         The output file is written to the same location, adding
         "_labelled.bib" to the end of the filename.
 
         The below pattern captures an entry.
         An entry begins with @. @ is always preceded by a new line except for 
-        the first entry. For further details, see text.t
+        the first entry. For further details about entries, see test.txt which 
+        contains a few variations.
 
         EndNote automatically adds two newlines to the end of the document.
         """
@@ -28,7 +29,6 @@ class Labelmaker:
             entry = ""
             for line in file:
                 if line != "}\n": # "}\n" is the final line of an entry
-                    # print(line)
                     if line == "\n": # lines between entries are empty
                         continue
                     entry += line
@@ -55,7 +55,7 @@ class Labelmaker:
         
         # This presumes that authors have been added in the way 
         # EndNote specifies, i.e. Firstname Lastname and one author
-        # per line. Then we get "and" between authors, e.g.:
+        # per line. Then EndNote produces an "and" between authors, e.g.:
         # "Basso, Gaetano and Peri, Giovanni and Rahman, Ahmed S."
         name_start = lines[1].find("{") + 1 # add one since start index is inclusive
         name_end = lines[1].find("}")
@@ -105,7 +105,8 @@ class Labelmaker:
             return label
 
         # if there is a duplicate, try adding a letter of the alphabet.
-        # If there are more duplicates than letters in the alphabet, well...
+        # If there are more duplicates than letters in the alphabet,
+        # the below assertion raises an error.
         duplicate = label
         i = 0
         alphabet = "abcdefghijklmnopqrstuvwxyz"
