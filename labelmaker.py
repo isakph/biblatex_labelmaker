@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+from unidecode import unidecode
 
 class Labelmaker:
     def __init__(self, filename: str):
@@ -60,8 +61,12 @@ class Labelmaker:
         name_start = lines[1].find("{") + 1 # add one since start index is inclusive
         name_end = lines[1].find("}")
         authors = lines[1][name_start:name_end].split(" and ")
+        
+        # This list comprehension normalizes the author names.
+        # After splitting on comma, the first element is the last name.
+        # unidecode() replaces non-ASCII characters.
         # Labels are lowercase. If an author's last name has a space, it is replaced by an underscore.
-        last_names = [author.split(",")[0].lower().replace(" ", "_") for author in authors]
+        last_names = [unidecode(author.split(",")[0].lower().replace(" ", "_")) for author in authors]
 
         # finding the year
         date_index = -1
