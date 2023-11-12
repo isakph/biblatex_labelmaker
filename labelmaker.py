@@ -128,7 +128,7 @@ class Labelmaker:
         return duplicate
             
 
-    def __write_to_file(self, overwrite=False) -> None:
+    def __write_to_file(self) -> None:
         with open(self.__filename.split(".")[0] + "_labelled.bib", "w") as file:
             file.write("\n".join(self.__entries))
 
